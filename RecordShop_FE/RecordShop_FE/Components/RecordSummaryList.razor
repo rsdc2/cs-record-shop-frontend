@@ -1,12 +1,13 @@
 ﻿@using RecordShop
 
-<ul>
-    @foreach (var album in Albums)
-    {
-        <RecordSummary Album="album" />
-    }
-
-</ul>
+<table>
+    <tbody>
+        @foreach (var album in Albums)
+        {
+            <RecordDetails Album="album" />
+        }
+    </tbody>
+</table>
 
 @code {
     [Parameter] public List<Album> Albums { get; set; } = new();

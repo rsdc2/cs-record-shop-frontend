@@ -3,31 +3,19 @@
 @rendermode InteractiveServer
 @inject ILogger<RecordDetails> logger
 
-<section>
-
-    <h3>Record details</h3>
-
+<tr>
     @if (FormVisible) {
-        <div>
-            <label>
-                Artist:
-                <InputText @bind-Value="Album.Artist" />
-            </label>
-
-            <label>
-                Album title:
-                <InputText @bind-Value="Album.Title" />
-            </label>
-            <GenericButton ButtonText="✔️" Obj="Album" T="Album" OnClick="UpdateAlbum" />
-        </div>
+        <td><InputText @bind-Value="Album.Artist" /></td>
+        <td><InputText @bind-Value="Album.Title" /></td>
+        <td><GenericButton ButtonText="✔️" Obj="Album" T="Album" OnClick="UpdateAlbum" /></td>
     }
     else 
     {
-        <span>@Album.Artist: @Album.Title</span>
-        <GenericButton ButtonText="🔧" T="bool" Obj="FormVisible" OnClick="ToggleFormVisible" />
+        <td><span>@Album.Artist</span></td>
+        <td><span>@Album.Title</span></td>
+        <td><GenericButton ButtonText="🔧" T="bool" Obj="FormVisible" OnClick="ToggleFormVisible" /></td>
     }
-
-</section>
+</tr>
 
 @code {
     [Parameter] public Album? Album { get; set; }
