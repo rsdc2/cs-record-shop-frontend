@@ -5,7 +5,7 @@
 }
 else 
 {
-    <RecordSummaryList Albums="Albums" />
+    <RecordSummaryList Albums="Albums"/>
 }
 
 
@@ -19,4 +19,5 @@ else
         httpClient = new HttpClient();
         Albums = await httpClient.GetFromJsonAsync<List<Album>>("https://localhost:7085/Albums");
     }
+
 }

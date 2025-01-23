@@ -11,4 +11,6 @@
 
 @code {
     [Parameter] public List<Album> Albums { get; set; } = new();
+
+    [Parameter] public EventCallback<Album> OnUpdateAlbum { get; set; }
 }

@@ -4,7 +4,8 @@
 @inject ILogger<RecordDetails> logger
 
 <tr>
-    @if (FormVisible) {
+    @if (FormVisible) 
+    {
         <td><InputText @bind-Value="Album.Artist" /></td>
         <td><InputText @bind-Value="Album.Title" /></td>
         <td><GenericButton ButtonText="✔️" Obj="Album" T="Album" OnClick="UpdateAlbum" /></td>
@@ -18,7 +19,11 @@
 </tr>
 
 @code {
+    private HttpUtils httpUtils = new HttpUtils();
+
     [Parameter] public Album? Album { get; set; }
+
+    [Parameter] public EventCallback<Album> OnUpdateAlbum { get; set; }
 
     public bool FormVisible { get; set; } = false;
 
@@ -31,5 +36,6 @@
 
     private void UpdateAlbum(Album album) {
         ToggleFormVisible(FormVisible);
+        httpUtils.UpdateRecord(album);
     }
 }
