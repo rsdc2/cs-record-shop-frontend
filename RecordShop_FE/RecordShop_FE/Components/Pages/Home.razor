@@ -1,0 +1,13 @@
+﻿@page "/"
+@using RecordShop
+
+<PageTitle>Home</PageTitle>
+
+<RecordsLoader />
+
+@code {
+    public static List<Album> TestAlbums { get; set; } = new() {
+        new Album(1, "The Gardens of Cygnus B", "Nebula Horizons"),
+        new Album(2, "Veridia", "Nebula Horizons")
+    };
+}

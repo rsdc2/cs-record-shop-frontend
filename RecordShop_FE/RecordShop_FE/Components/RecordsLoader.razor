@@ -1,0 +1,22 @@
+﻿@using RecordShop
+
+@if (Albums is null) {
+    <Loading />
+}
+else 
+{
+    <RecordSummaryList Albums="Albums" />
+}
+
+
+@code {
+    HttpClient? httpClient;
+
+    public List<Album>? Albums { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        httpClient = new HttpClient();
+        Albums = await httpClient.GetFromJsonAsync<List<Album>>("https://localhost:7085/Albums");
+    }
+}

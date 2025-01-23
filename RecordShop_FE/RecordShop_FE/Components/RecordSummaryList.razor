@@ -1,0 +1,13 @@
+﻿@using RecordShop
+
+<ul>
+    @foreach (var album in Albums)
+    {
+        <RecordSummary Album="album" />
+    }
+
+</ul>
+
+@code {
+    [Parameter] public List<Album> Albums { get; set; } = new();
+}

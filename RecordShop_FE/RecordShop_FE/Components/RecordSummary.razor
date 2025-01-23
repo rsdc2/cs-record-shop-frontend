@@ -1,0 +1,7 @@
+﻿@using RecordShop
+
+<li class="has-background-grey has-text-primary">@Album.Artist: @Album.Title</li>
+
+@code {
+    [Parameter] public Album Album { get; set; }
+}
