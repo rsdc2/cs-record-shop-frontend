@@ -1,0 +1,19 @@
+﻿@using RecordShop
+@typeparam T
+
+<button class="has-background-primary px-2 mx-5" @onclick="() => ClickAction(Obj)">
+    <span class="has-text-dark">@ButtonText</span>
+</button>
+
+@code {
+    [Parameter]
+    public string ButtonText {get; set;}
+
+    [Parameter]
+    public EventCallback<T> OnClick { get; set; }
+
+    [Parameter]
+    public T Obj { get; set; }
+
+    private void ClickAction(T obj) => OnClick.InvokeAsync(obj);
+}

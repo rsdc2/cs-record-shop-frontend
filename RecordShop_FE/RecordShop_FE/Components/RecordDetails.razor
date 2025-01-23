@@ -1,26 +1,47 @@
 ﻿@using RecordShop
 @using Microsoft.Extensions.Logging
+@rendermode InteractiveServer
 @inject ILogger<RecordDetails> logger
 
-<EditForm Model="Album" OnValidSubmit="Submit" FormName="ChangeAlbumDetails">
-    <div>
-        <label>
-            Artist: 
-            <InputText @bind-Value="Album.Artist" />
-        </label>
+<section>
 
-        <label>
-            Album title:
-            <InputText @bind-Value="Album.Title" />
-        </label>
-    </div>
-</EditForm>
+    <h3>Record details</h3>
+
+    @if (FormVisible) {
+        <div>
+            <label>
+                Artist:
+                <InputText @bind-Value="Album.Artist" />
+            </label>
+
+            <label>
+                Album title:
+                <InputText @bind-Value="Album.Title" />
+            </label>
+            <GenericButton ButtonText="✔️" Obj="Album" T="Album" OnClick="UpdateAlbum" />
+        </div>
+    }
+    else 
+    {
+        <span>@Album.Artist: @Album.Title</span>
+        <GenericButton ButtonText="🔧" T="bool" Obj="FormVisible" OnClick="ToggleFormVisible" />
+    }
+
+</section>
 
 @code {
     [Parameter] public Album? Album { get; set; }
 
+    public bool FormVisible { get; set; } = false;
+
     private void Submit()
     {
         logger.LogInformation(Album.ToString());
+    }
+
+    private void ToggleFormVisible(bool formVisible) => FormVisible = !formVisible;
+
+    private void UpdateAlbum(Album album) {
+        ToggleFormVisible(FormVisible);
     }
 }
