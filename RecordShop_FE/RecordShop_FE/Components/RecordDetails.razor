@@ -15,11 +15,21 @@
         <td><span>@Album.Artist</span></td>
         <td><span>@Album.Title</span></td>
         <td><GenericButton ButtonText="🔧" T="bool" Obj="FormVisible" OnClick="ToggleFormVisible" /></td>
+        if (SyncStatus == 200) 
+        {
+            <td><span>🆗</span></td>
+        }
+        else 
+        {
+            <td><span>❌</span></td>
+        }
     }
 </tr>
 
 @code {
     private HttpUtils httpUtils = new HttpUtils();
+
+    private int SyncStatus { get; set; } = 200;
 
     [Parameter] public Album? Album { get; set; }
 
@@ -36,6 +46,6 @@
 
     private void UpdateAlbum(Album album) {
         ToggleFormVisible(FormVisible);
-        httpUtils.UpdateRecord(album);
+        SyncStatus = (int)httpUtils.UpdateRecord(album).StatusCode ;
     }
 }
