@@ -1,5 +1,26 @@
 ﻿@using RecordShop
+@using Microsoft.Extensions.Logging
+@inject ILogger<RecordDetails> logger
+
+<EditForm Model="Album" OnValidSubmit="Submit" FormName="ChangeAlbumDetails">
+    <div>
+        <label>
+            Artist: 
+            <InputText @bind-Value="Album.Artist" />
+        </label>
+
+        <label>
+            Album title:
+            <InputText @bind-Value="Album.Title" />
+        </label>
+    </div>
+</EditForm>
 
 @code {
     [Parameter] public Album? Album { get; set; }
+
+    private void Submit()
+    {
+        logger.LogInformation(Album.ToString());
+    }
 }

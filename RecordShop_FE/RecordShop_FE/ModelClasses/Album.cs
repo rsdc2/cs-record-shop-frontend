@@ -12,5 +12,10 @@
             Title = title;
             Artist = artist;
         }
+
+        public override string ToString()
+        {
+            return $"{Id}. {Artist}: {Title}";
+        }
     }
 }
