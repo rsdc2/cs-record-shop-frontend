@@ -1,14 +1,15 @@
-﻿using RecordShop;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using RecordShop;
 using System.Net.Http;
 using System.Text.Json;
 
 namespace RecordShop_FE
 {
-    public class RecordHttpRequests
+    public class HttpManager
     {
         HttpClient _httpClient;
 
-        public RecordHttpRequests()
+        public HttpManager()
         {
             _httpClient = new HttpClient();
         }
@@ -29,9 +30,9 @@ namespace RecordShop_FE
             return (response, album);
         }
 
-        public HttpResponseMessage UpdateRecord(Album album)
+        public HttpResponseMessage PutRecord(Album album)
         {
-            var content = JsonContent.Create<Album>(album);
+            var content = JsonContent.Create(album);
             var message = new HttpRequestMessage
             {
                 Method = HttpMethod.Put,
@@ -39,6 +40,22 @@ namespace RecordShop_FE
                 Content = content
             };
             return _httpClient.Send(message);
+        }
+
+        public async Task<(HttpResponseMessage?, Album?)> PostRecord(Album album)
+        {
+            var content = JsonContent.Create(album);
+            var message = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri($"https://localhost:7085/Albums"),
+                Content = content
+            };
+            var response = _httpClient.Send(message);
+            var contentBody = await response.Content.ReadAsStringAsync();
+
+            var newAlbum = JsonSerializer.Deserialize<Album>(contentBody);
+            return (response, newAlbum);
         }
     }
 }

@@ -1,0 +1,36 @@
+﻿@using RecordShop
+@using System.Net
+@rendermode InteractiveServer
+@inject NavigationManager navigationManager
+
+<div>
+    <label>
+        Artist:
+        <InputText @bind-Value="Artist" />
+    </label>
+
+    <label>
+        Title:
+        <InputText @bind-Value="Title" />
+    </label>
+
+    <Button ButtonText="Add record" T="Album" Obj="GetNewAlbum()" OnClick="Submit"/>
+</div>
+
+@code {
+    HttpManager http = new HttpManager();
+
+    private string Artist { get; set; }
+
+    private string Title { get; set; }
+
+    private Album GetNewAlbum() => new Album(0, Title, Artist);
+
+    private async Task Submit(Album album) {
+    var (response, record) = await http.PostRecord(album);
+
+        if (response.StatusCode == HttpStatusCode.OK) {
+            navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{record.Id}");
+        }
+    }
+}

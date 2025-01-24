@@ -15,7 +15,7 @@
 </tr>
 
 @code {
-    private RecordHttpRequests httpUtils = new RecordHttpRequests();
+    private HttpManager httpUtils = new HttpManager();
 
     private bool EditMode { get; set; } = false;
 
@@ -39,6 +39,6 @@
     private void UpdateAlbum(Album album) {
         ToggleFormVisible(EditMode);
         Album = album;
-        StatusCode = (int)httpUtils.UpdateRecord(album).StatusCode;
+        StatusCode = (int)httpUtils.PutRecord(album).StatusCode;
     }
 }
