@@ -6,28 +6,43 @@
 <div>
     <label>
         Artist:
-        <InputText @bind-Value="Artist" />
+        <input @bind="Artist" @bind:event="oninput" />
     </label>
 
     <label>
         Title:
-        <InputText @bind-Value="Title" />
+        <input @bind="Title" @bind:event="oninput" />
     </label>
 
-    <Button ButtonText="Add record" T="Album" Obj="GetNewAlbum()" OnClick="Submit"/>
+    @if (IsValid) {
+        <Button ButtonText="Add record" T="Album" Obj="GetNewAlbum()" OnClick="Submit" />
+    }
+    else 
+    {
+        <Warning Text="One or more fields are missing entries" />
+    }
+
 </div>
 
 @code {
     HttpManager http = new HttpManager();
 
-    private string Artist { get; set; }
+    private string? titleValue = "";
 
-    private string Title { get; set; }
+    private string? Artist { get; set; }
 
-    private Album GetNewAlbum() => new Album(0, Title, Artist);
+    private string? Title { get; set; }
+
+    private bool IsValid { get => Title is not null && Title != "" && Artist is not null && Artist != "";  }
+
+    private Album GetNewAlbum()
+    {
+
+        return new Album(0, Title, Artist);
+    }
 
     private async Task Submit(Album album) {
-    var (response, record) = await http.PostRecord(album);
+        var (response, record) = await http.PostRecord(album);
 
         if (response.StatusCode == HttpStatusCode.OK) {
             navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{record.Id}");
