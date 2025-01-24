@@ -1,8 +1,12 @@
 ﻿@using RecordShop
+@inject NavigationManager navman
 
 <td><span>@Album.Artist</span></td>
 <td><span>@Album.Title</span></td>
-<td><GenericButton ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" /></td>
+<td>
+    <Button ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" />
+    <Button ButtonText="🔍" T="Album" Obj="Album" OnClick="ShowRecordPage" />
+</td>
 @if (StatusCode == 200)
 {
     <td><span>🆗 (@StatusCode)</span></td>
@@ -13,6 +17,8 @@ else
 }
 
 @code {
+    public RecordNavig
+
     [Parameter] 
     public Album Album { get; set; }
 
@@ -24,5 +30,9 @@ else
 
     public void EditRecord(bool edit) {
         OnEditRecord.InvokeAsync(edit);
+    }
+
+    public void ShowRecordPage(Album album) {
+        navman.NavigateTo(navman.BaseUri + $"records/{album.Id}");
     }
 }

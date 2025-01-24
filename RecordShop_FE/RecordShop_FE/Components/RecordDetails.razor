@@ -4,23 +4,24 @@
 @inject ILogger<RecordDetails> logger
 
 <tr>
-    @if (EditDetails) 
+    @if (EditMode) 
     {
         <RecordEditor Album="Album" OnUpdate="UpdateAlbum"/>
     }
     else 
     {
-        <RecordSummary Album="Album" StatusCode="SyncStatus" OnEditRecord="ToggleFormVisible" />
+        <RecordSummary Album="Album" StatusCode="StatusCode" OnEditRecord="ToggleFormVisible" />
     }
 </tr>
 
 @code {
     private RecordHttpRequests httpUtils = new RecordHttpRequests();
 
-    [Parameter]
-    public int SyncStatus { get; set; }
+    private bool EditMode { get; set; } = false;
 
-    public bool EditDetails { get; set; } = false;
+    [Parameter]
+    public int StatusCode { get; set; }
+
     [Parameter] 
     public Album? Album { get; set; }
 
@@ -33,11 +34,11 @@
         logger.LogInformation(Album.ToString());
     }
 
-    private void ToggleFormVisible(bool formVisible) => EditDetails = !formVisible;
+    private void ToggleFormVisible(bool editMode) => EditMode = !editMode;
 
     private void UpdateAlbum(Album album) {
-        ToggleFormVisible(EditDetails);
+        ToggleFormVisible(EditMode);
         Album = album;
-        SyncStatus = (int)httpUtils.UpdateRecord(album).StatusCode;
+        StatusCode = (int)httpUtils.UpdateRecord(album).StatusCode;
     }
 }
