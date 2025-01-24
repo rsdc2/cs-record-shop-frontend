@@ -1,0 +1,24 @@
+﻿@using RecordShop
+
+@if (Album is null)
+{
+    <Loading />
+}
+else
+{
+    <RecordDetails Album="Album" />
+}
+
+@code {
+    HttpRequests http = new HttpRequests();
+
+    private Album? Album { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Album = await http.GetAlbumById(Id);
+    }
+}

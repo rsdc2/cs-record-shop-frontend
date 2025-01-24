@@ -1,0 +1,16 @@
+﻿@page "/records/{Id:int}"
+@using RecordShop
+@rendermode InteractiveServer
+
+<h2>Record details</h2>
+
+<table>
+    <tbody>
+        <RecordLoader Id="Id"/>
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

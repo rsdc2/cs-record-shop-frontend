@@ -3,14 +3,21 @@ using System.Net.Http;
 
 namespace RecordShop_FE
 {
-    public class HttpUtils
+    public class HttpRequests
     {
         HttpClient _httpClient;
 
-        public HttpUtils()
+        public HttpRequests()
         {
             _httpClient = new HttpClient();
         }
+
+        public async Task<List<Album>?> GetAllRecords() =>
+            await _httpClient.GetFromJsonAsync<List<Album>>("https://localhost:7085/Albums");
+        
+
+        public async Task<Album?> GetAlbumById(int id) =>
+            await _httpClient.GetFromJsonAsync<Album>($"https://localhost:7085/Albums/{id}");
 
         public HttpResponseMessage UpdateRecord(Album album)
         {

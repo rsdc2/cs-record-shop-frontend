@@ -4,7 +4,7 @@
 @inject ILogger<RecordDetails> logger
 
 <tr>
-    @if (FormVisible) 
+    @if (EditDetails) 
     {
         <td><InputText @bind-Value="Album.Artist" /></td>
         <td><InputText @bind-Value="Album.Title" /></td>
@@ -14,7 +14,7 @@
     {
         <td><span>@Album.Artist</span></td>
         <td><span>@Album.Title</span></td>
-        <td><GenericButton ButtonText="🔧" T="bool" Obj="FormVisible" OnClick="ToggleFormVisible" /></td>
+        <td><GenericButton ButtonText="🔧" T="bool" Obj="EditDetails" OnClick="ToggleFormVisible" /></td>
         if (SyncStatus == 200) 
         {
             <td><span>🆗</span></td>
@@ -27,25 +27,29 @@
 </tr>
 
 @code {
-    private HttpUtils httpUtils = new HttpUtils();
+    private HttpRequests httpUtils = new HttpRequests();
 
     private int SyncStatus { get; set; } = 200;
 
-    [Parameter] public Album? Album { get; set; }
+    public bool EditDetails { get; set; } = false;
 
-    [Parameter] public EventCallback<Album> OnUpdateAlbum { get; set; }
+    [Parameter] 
+    public Album? Album { get; set; }
 
-    public bool FormVisible { get; set; } = false;
+    [Parameter] 
+    public EventCallback<Album> OnUpdateAlbum { get; set; }
+
 
     private void Submit()
     {
         logger.LogInformation(Album.ToString());
     }
 
-    private void ToggleFormVisible(bool formVisible) => FormVisible = !formVisible;
+    private void ToggleFormVisible(bool formVisible) => EditDetails = !formVisible;
 
     private void UpdateAlbum(Album album) {
-        ToggleFormVisible(FormVisible);
-        SyncStatus = (int)httpUtils.UpdateRecord(album).StatusCode ;
+        ToggleFormVisible(EditDetails);
+        Album = album;
+        SyncStatus = (int)httpUtils.UpdateRecord(album).StatusCode;
     }
 }
