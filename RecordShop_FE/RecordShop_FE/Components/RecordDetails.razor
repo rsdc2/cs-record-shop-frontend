@@ -6,23 +6,11 @@
 <tr>
     @if (EditDetails) 
     {
-        <td><InputText @bind-Value="Album.Artist" /></td>
-        <td><InputText @bind-Value="Album.Title" /></td>
-        <td><GenericButton ButtonText="✔️" Obj="Album" T="Album" OnClick="UpdateAlbum" /></td>
+        <RecordEditor Album="Album" OnUpdate="UpdateAlbum"/>
     }
     else 
     {
-        <td><span>@Album.Artist</span></td>
-        <td><span>@Album.Title</span></td>
-        <td><GenericButton ButtonText="🔧" T="bool" Obj="EditDetails" OnClick="ToggleFormVisible" /></td>
-        if (SyncStatus == 200) 
-        {
-            <td><span>🆗</span></td>
-        }
-        else 
-        {
-            <td><span>❌</span></td>
-        }
+        <RecordSummary Album="Album" SyncStatus="SyncStatus" OnEditRecord="ToggleFormVisible" />
     }
 </tr>
 

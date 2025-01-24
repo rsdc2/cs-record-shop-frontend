@@ -1,7 +1,28 @@
 ﻿@using RecordShop
 
-<li class="has-background-grey has-text-primary">@Album.Artist: @Album.Title</li>
+<td><span>@Album.Artist</span></td>
+<td><span>@Album.Title</span></td>
+<td><GenericButton ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" /></td>
+@if (SyncStatus == 200)
+{
+    <td><span>🆗</span></td>
+}
+else
+{
+    <td><span>❌</span></td>
+}
 
 @code {
-    [Parameter] public Album Album { get; set; }
+    [Parameter] 
+    public Album Album { get; set; }
+
+    [Parameter] 
+    public int SyncStatus { get; set; }
+
+    [Parameter] 
+    public EventCallback<bool> OnEditRecord { get; set; }
+
+    public void EditRecord(bool edit) {
+        OnEditRecord.InvokeAsync(edit);
+    }
 }
