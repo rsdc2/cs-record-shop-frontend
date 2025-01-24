@@ -3,11 +3,11 @@ using System.Net.Http;
 
 namespace RecordShop_FE
 {
-    public class HttpRequests
+    public class RecordHttpRequests
     {
         HttpClient _httpClient;
 
-        public HttpRequests()
+        public RecordHttpRequests()
         {
             _httpClient = new HttpClient();
         }

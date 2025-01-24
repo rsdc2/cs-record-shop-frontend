@@ -1,0 +1,22 @@
+﻿@using RecordShop
+
+@if (Albums is null) {
+    <Loading />
+}
+else 
+{
+    <AllRecordsSummaryList Albums="Albums"/>
+}
+
+
+@code {
+    RecordHttpRequests http = new RecordHttpRequests();
+
+    public List<Album>? Albums { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Albums = await http.GetAllRecords();
+    }
+
+}
