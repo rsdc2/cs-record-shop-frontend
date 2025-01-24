@@ -1,9 +1,9 @@
 ﻿@using RecordShop
 @inject NavigationManager navman
 
-<td><span>@Album.Artist</span></td>
-<td><span>@Album.Title</span></td>
-<td>
+<td class="px-2 mx-2"><span>@Album.Artist</span></td>
+<td class ="px-2 mx-2"><span>@Album.Title</span></td>
+<td class="px-2 mx-2">
     <Button ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" />
     <Button ButtonText="🔍" T="Album" Obj="Album" OnClick="ShowRecordPage" />
 </td>

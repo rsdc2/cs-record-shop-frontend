@@ -20,19 +20,13 @@
     private bool EditMode { get; set; } = false;
 
     [Parameter]
-    public int StatusCode { get; set; }
+    public int StatusCode { get; set; } = 200;
 
     [Parameter] 
     public Album? Album { get; set; }
 
     [Parameter] 
     public EventCallback<Album> OnUpdateAlbum { get; set; }
-
-
-    private void Submit()
-    {
-        logger.LogInformation(Album.ToString());
-    }
 
     private void ToggleFormVisible(bool editMode) => EditMode = !editMode;
 
