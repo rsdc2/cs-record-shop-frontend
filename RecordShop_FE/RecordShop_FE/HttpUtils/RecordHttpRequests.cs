@@ -1,5 +1,6 @@
 ﻿using RecordShop;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace RecordShop_FE
 {
@@ -19,9 +20,17 @@ namespace RecordShop_FE
         public async Task<Album?> GetAlbumById(int id) =>
             await _httpClient.GetFromJsonAsync<Album>($"https://localhost:7085/Albums/{id}");
 
+        public async Task<(HttpResponseMessage?, Album?)> GetAlbumByIdWithResponse(int id)
+        {
+            HttpResponseMessage? response = await _httpClient.GetAsync($"https://localhost:7085/Albums/{id}");
+            var contentBody = await response.Content.ReadAsStringAsync();
+
+            var album = JsonSerializer.Deserialize<Album>(contentBody);
+            return (response, album);
+        }
+
         public HttpResponseMessage UpdateRecord(Album album)
         {
-            _httpClient = new HttpClient();
             var content = JsonContent.Create<Album>(album);
             var message = new HttpRequestMessage
             {

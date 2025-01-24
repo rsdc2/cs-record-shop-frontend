@@ -10,17 +10,17 @@
     }
     else 
     {
-        <RecordSummary Album="Album" SyncStatus="SyncStatus" OnEditRecord="ToggleFormVisible" />
+        <RecordSummary Album="Album" StatusCode="SyncStatus" OnEditRecord="ToggleFormVisible" />
     }
 </tr>
 
 @code {
     private RecordHttpRequests httpUtils = new RecordHttpRequests();
 
-    private int SyncStatus { get; set; } = 200;
+    [Parameter]
+    public int SyncStatus { get; set; }
 
     public bool EditDetails { get; set; } = false;
-
     [Parameter] 
     public Album? Album { get; set; }
 

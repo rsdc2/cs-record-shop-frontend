@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Errors\" />
     <Folder Include="ModelClasses\" />
   </ItemGroup>
 

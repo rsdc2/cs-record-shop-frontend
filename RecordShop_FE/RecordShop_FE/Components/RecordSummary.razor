@@ -3,13 +3,13 @@
 <td><span>@Album.Artist</span></td>
 <td><span>@Album.Title</span></td>
 <td><GenericButton ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" /></td>
-@if (SyncStatus == 200)
+@if (StatusCode == 200)
 {
-    <td><span>🆗</span></td>
+    <td><span>🆗 (@StatusCode)</span></td>
 }
 else
 {
-    <td><span>❌</span></td>
+    <td><span>❌ (@StatusCode)</span></td>
 }
 
 @code {
@@ -17,7 +17,7 @@ else
     public Album Album { get; set; }
 
     [Parameter] 
-    public int SyncStatus { get; set; }
+    public int StatusCode { get; set; }
 
     [Parameter] 
     public EventCallback<bool> OnEditRecord { get; set; }

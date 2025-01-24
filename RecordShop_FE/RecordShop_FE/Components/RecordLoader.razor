@@ -4,9 +4,17 @@
 {
     <Loading />
 }
+else if (StatusCode == 400)
+{
+    <_400 />
+}
+else if (StatusCode == 404)
+{
+    <_404 />
+}
 else
 {
-    <RecordDetails Album="Album" />
+    <RecordDetails Album="Album" SyncStatus="StatusCode"/>
 }
 
 @code {
@@ -14,11 +22,15 @@ else
 
     private Album? Album { get; set; }
 
+    public int StatusCode { get; set; }
+
     [Parameter]
     public int Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Album = await http.GetAlbumById(Id);
+        var (response, album) = await http.GetAlbumByIdWithResponse(Id);
+        Album = album;
+        StatusCode = (int)response.StatusCode;
     }
 }
