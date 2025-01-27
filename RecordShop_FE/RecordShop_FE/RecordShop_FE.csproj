@@ -16,4 +16,10 @@
     <Folder Include="ModelClasses\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\RecordEditorForm.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

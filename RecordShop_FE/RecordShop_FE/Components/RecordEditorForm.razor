@@ -1,0 +1,33 @@
+﻿@using RecordShop
+@inject NavigationManager navigationManager
+
+<EditForm FormName="RecordEditorForm" Model="@Album" OnValidSubmit="UpdateAlbum">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+@*     <td class="px-2 mx-2"><InputText id="artist" @bind-Value="Album.Artist" /></td>
+    <td class="px-2 mx-2"><InputText id="title" @bind-Value="Album.Title" /></td>
+    <td class="px-2 mx-2"><button type="submit">Submit</button></td> *@
+    <InputText id="artist" @bind-Value="Album.Artist" />
+    <InputText id="title" @bind-Value="Album.Title" />
+    <button type="submit">Submit</button>
+</EditForm>
+
+
+@code {
+    private HttpManager httpUtils = new HttpManager();
+
+    [Parameter]
+    public Album? Album { get; set; }
+
+    [Parameter]
+    public EventCallback<Album> OnUpdate { get; set; }
+
+    private void UpdateAlbum(Album album)
+    {
+        Album = album;
+        var statusCode = (int)httpUtils.PutRecord(album).StatusCode;
+        if (statusCode == 200) {
+
+        }
+    }
+}

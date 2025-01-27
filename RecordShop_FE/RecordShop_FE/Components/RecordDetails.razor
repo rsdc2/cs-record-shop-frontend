@@ -2,6 +2,7 @@
 @using Microsoft.Extensions.Logging
 @rendermode InteractiveServer
 @inject ILogger<RecordDetails> logger
+@inject NavigationManager navigationManager
 
 <tr>
     @if (EditMode) 
@@ -13,7 +14,7 @@
         <RecordSummary 
             Album="Album" 
             StatusCode="StatusCode" 
-            OnEditRecord="ToggleFormVisible"
+            OnEditRecord="NavigateToEditForm"
         />
     }
 </tr>
@@ -32,12 +33,18 @@
     [Parameter] 
     public EventCallback<Album> OnUpdateAlbum { get; set; }
 
-    private void ToggleFormVisible(bool editMode) => EditMode = !editMode;
-
-    private async Task DeleteRecord(int id) {
+    private async Task DeleteRecord(int id)
+    {
         var response = await httpUtils.DeleteRecordById(id);
         StatusCode = (int)response.StatusCode;
     }
+
+    private void ToggleFormVisible(bool editMode) => EditMode = !editMode;
+
+    private void NavigateToEditForm(Album record) {
+        navigationManager.NavigateTo(navigationManager.BaseUri + $"records/edit/{record.Id}");
+    }
+
 
     private void UpdateAlbum(Album album) {
         ToggleFormVisible(EditMode);

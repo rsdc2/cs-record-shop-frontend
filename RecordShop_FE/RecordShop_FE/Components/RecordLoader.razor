@@ -14,7 +14,14 @@ else if (StatusCode == 404)
 }
 else
 {
-    <RecordDetails Album="Album" StatusCode="StatusCode"/>
+    if (PageContext == Page.EditRecord)
+    {
+        <RecordEditorForm Album="Album" />
+    }
+    else 
+    {
+        <RecordDetails Album="Album" StatusCode="StatusCode" />
+    }
 }
 
 @code {
@@ -23,6 +30,9 @@ else
     private Album? Album { get; set; }
 
     public int StatusCode { get; set; }
+
+    [Parameter]
+    public Page PageContext { get; set; }
 
     [Parameter]
     public int Id { get; set; }

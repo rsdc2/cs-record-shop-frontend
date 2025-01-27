@@ -1,0 +1,21 @@
+﻿@page "/records/edit/{Id:int}"
+@using RecordShop
+@rendermode InteractiveServer
+
+<RecordEditorForm Album="Album" OnUpdate="UpdateAlbum" />
+
+@code {
+    [Parameter]
+    public Album? Album { get; set; }
+
+    [Parameter]
+    public EventCallback<Album> OnUpdate { get; set; }
+
+    public void UpdateAlbum()
+    {
+        OnUpdate.InvokeAsync(Album);
+    }
+}
+
+
+

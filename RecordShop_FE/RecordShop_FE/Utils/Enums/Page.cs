@@ -5,6 +5,7 @@
         Home,
         About,
         AllRecords,
-        SingleRecord
+        SingleRecord,
+        EditRecord
     }
 }
