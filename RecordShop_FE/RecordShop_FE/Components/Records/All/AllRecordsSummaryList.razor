@@ -2,6 +2,8 @@
 @rendermode InteractiveServer
 @namespace RecordShop.Components
 
+<Button ButtonText="Add new" T="bool" Obj="AddingRecord" OnClick="SetAddingRecord"/>
+
 <table class="p-3 m-3">
     <tbody>
         @foreach (var album in Albums)
@@ -11,8 +13,21 @@
     </tbody>
 </table>
 
-@code {
-    [Parameter] public List<Album> Albums { get; set; } = new();
+@if (AddingRecord) {
+    <RecordAdder />
+}
 
-    [Parameter] public EventCallback<Album> OnUpdateAlbum { get; set; }
+
+@code {
+    private bool AddingRecord { get; set; }
+
+    [Parameter] 
+    public List<Album> Albums { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Album> OnUpdateAlbum { get; set; }
+
+    private void SetAddingRecord(bool addingRecord) {
+        AddingRecord = true;
+    }
 }
