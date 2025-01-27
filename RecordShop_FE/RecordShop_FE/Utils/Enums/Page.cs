@@ -6,6 +6,7 @@
         About,
         AllRecords,
         SingleRecord,
-        EditRecord
+        EditRecord,
+        AddRecord
     }
 }

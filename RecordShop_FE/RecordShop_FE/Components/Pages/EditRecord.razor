@@ -6,19 +6,13 @@
 <RecordLoader Id="Id" PageContext="Page.EditRecord"/>
 
 @code {
+
     [Parameter]
     public Album? Album { get; set; }
 
     [Parameter]
-    public EventCallback<Album> OnUpdate { get; set; }
-
-    [Parameter]
     public int Id { get; set; }
 
-    public void UpdateAlbum()
-    {
-        OnUpdate.InvokeAsync(Album);
-    }
 }
 
 

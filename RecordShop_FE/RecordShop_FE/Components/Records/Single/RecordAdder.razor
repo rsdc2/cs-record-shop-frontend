@@ -5,51 +5,24 @@
 
 @inject NavigationManager navigationManager
 
-<div>
-    <label>
-        Artist:
-        <input @bind="Artist" @bind:event="oninput" />
-    </label>
-
-    <label>
-        Title:
-        <input @bind="Title" @bind:event="oninput" />
-    </label>
-
-    @if (IsValid) {
-        <Button ButtonText="Add record" T="Album" Obj="GetNewAlbum()" OnClick="Submit" />
-    }
-    else 
-    {
-        <Warning Text="One or more fields are missing entries" />
-    }
-
-</div>
+<RecordEditorForm Album="GetNewAlbum()" PageContext="Page.AddRecord" OnSubmit="PostRecord"/>
 
 @code {
     HttpManager http = new HttpManager();
     private RSNavContext navContext;
 
-    private string? titleValue = "";
-
-    private string? Artist { get; set; }
-
-    private string? Title { get; set; }
-
-    private bool IsValid { get => Title is not null && Title != "" && Artist is not null && Artist != "";  }
-
-    private Album GetNewAlbum() => new Album(0, Title, Artist);
+    private Album GetNewAlbum() => new Album(0, "", "");
 
     protected override void OnInitialized()
     {
         navContext = new RSNavContext(navigationManager);
     }
 
-    private async Task Submit(Album album) {
+    private async Task PostRecord(Album album) {
         var (response, record) = await http.PostRecord(album);
 
         if (response.StatusCode == HttpStatusCode.OK) {
-            navContext.NavigateTo($"records/{record.Id}");
+            navContext.NavigateTo($"records");
         }
     }
 }

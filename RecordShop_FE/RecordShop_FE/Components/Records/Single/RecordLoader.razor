@@ -1,4 +1,5 @@
 ﻿@using RecordShop
+@inject NavigationManager navigationManager
 @namespace RecordShop.Components
 
 @if (Album is null)
@@ -17,7 +18,7 @@ else
 {
     if (PageContext == Page.EditRecord)
     {
-        <RecordEditorForm Album="Album" PageContext="PageContext"/>
+        <RecordEditorForm Album="Album" PageContext="PageContext" OnSubmit="UpdateAlbum"/>
     }
     else 
     {
@@ -26,7 +27,8 @@ else
 }
 
 @code {
-    HttpManager http = new HttpManager();
+    HttpManager httpManager = new HttpManager();
+    private RSNavContext navContext;
 
     private Album? Album { get; set; }
 
@@ -40,8 +42,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var (response, album) = await http.GetAlbumByIdWithResponse(Id);
+        var (response, album) = await httpManager.GetAlbumByIdWithResponse(Id);
         Album = album;
         StatusCode = (int)response.StatusCode;
+        navContext = new RSNavContext(navigationManager);
+    }
+
+    private void UpdateAlbum()
+    {
+        var statusCode = (int)httpManager.PutRecord(Album).StatusCode;
+        navContext.NavigateTo("records");
     }
 }

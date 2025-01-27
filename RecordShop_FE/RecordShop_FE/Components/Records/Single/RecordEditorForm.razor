@@ -2,7 +2,7 @@
 @namespace RecordShop.Components
 @inject NavigationManager navigationManager
 
-<EditForm FormName="RecordEditorForm" Model="@Album" OnValidSubmit="UpdateAlbum">
+<EditForm FormName="RecordEditorForm" Model="@Album" OnValidSubmit="Submit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <InputText id="artist" @bind-Value="Album.Artist" />
@@ -13,13 +13,14 @@
 
 @code {
     private HttpManager httpUtils = new HttpManager();
+
     private RSNavContext navContext;
 
     [Parameter]
     public Album? Album { get; set; }
 
     [Parameter]
-    public EventCallback<Album> OnUpdate { get; set; }
+    public EventCallback<Album> OnSubmit { get; set; }
 
     [Parameter]
     public Page PageContext { get; set; }
@@ -29,9 +30,9 @@
         navContext = new RSNavContext(navigationManager);
     }
 
-    private void UpdateAlbum()
-    {
-        var statusCode = (int)httpUtils.PutRecord(Album).StatusCode;
-        navContext.NavigateTo("records");
+    private async Task Submit() {
+        await OnSubmit.InvokeAsync(Album);
     }
+
+
 }
