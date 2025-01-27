@@ -23,13 +23,18 @@ public class RSNavContext
         switch (pageContext)
         {
             case Page.AllRecords:
-                NavigateTo("/records");
-                break;
+                NavigateTo("records");
+                return;
 
             case Page.SingleRecord:
-                NavigateTo($"/record/{album.Id}");
-                break;
+                NavigateTo($"record/{album.Id}");
+                return;
+
+            case Page.EditRecord:
+                NavigateTo($"record/{album.Id}");
+                return;
         }
+        NavigateTo("records");
     }
 
 }

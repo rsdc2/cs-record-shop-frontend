@@ -32,6 +32,6 @@
     private void UpdateAlbum()
     {
         var statusCode = (int)httpUtils.PutRecord(Album).StatusCode;
-        navContext.NavigateBack(PageContext, Album);
+        navContext.NavigateTo("records");
     }
 }

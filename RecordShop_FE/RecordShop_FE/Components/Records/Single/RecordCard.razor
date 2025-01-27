@@ -9,7 +9,7 @@
     {
         <td>
             <div>
-                <RecordEditorForm Album="Album" OnUpdate="UpdateAlbum" />
+                <RecordEditorForm Album="Album" OnUpdate="UpdateAlbum" PageContext="Page.EditRecord"/>
             </div>
         </td>
     }
@@ -62,6 +62,6 @@
         ToggleFormVisible(EditMode);
         Album = album;
         StatusCode = (int)httpUtils.PutRecord(album).StatusCode;
-        navContext.NavigateBack(PageContext, album);
+        navContext.NavigateTo("records");
     }
 }
