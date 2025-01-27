@@ -1,26 +1,32 @@
 ﻿@using RecordShop
 @using Microsoft.Extensions.Logging
 @rendermode InteractiveServer
-@inject ILogger<RecordCard> logger
+@namespace RecordShop.Components
 @inject NavigationManager navigationManager
 
 <tr>
     @if (EditMode) 
     {
-        <RecordEditor Album="Album" OnUpdate="UpdateAlbum"/>
+        <td>
+            <div>
+                <RecordEditorForm Album="Album" OnUpdate="UpdateAlbum" />
+            </div>
+        </td>
     }
     else 
     {
         <RecordSummary 
-            Album="Album" 
-            StatusCode="StatusCode" 
-            OnEditRecord="NavigateToEditForm"
+        Album="Album" 
+        StatusCode="StatusCode" 
+        OnEditRecord="NavigateToEditForm"
         />
     }
 </tr>
 
 @code {
     private HttpManager httpUtils = new HttpManager();
+
+    private RSNavContext navContext;
 
     private bool EditMode { get; set; } = false;
 
@@ -33,6 +39,13 @@
     [Parameter] 
     public EventCallback<Album> OnUpdateAlbum { get; set; }
 
+    [Parameter]
+    public Page PageContext { get; set; }
+
+    protected override void OnInitialized() {
+        navContext = new RSNavContext(navigationManager);
+    }
+
     private async Task DeleteRecord(int id)
     {
         var response = await httpUtils.DeleteRecordById(id);
@@ -42,13 +55,13 @@
     private void ToggleFormVisible(bool editMode) => EditMode = !editMode;
 
     private void NavigateToEditForm(Album record) {
-        navigationManager.NavigateTo(navigationManager.BaseUri + $"records/edit/{record.Id}");
+        EditMode = true;
     }
-
 
     private void UpdateAlbum(Album album) {
         ToggleFormVisible(EditMode);
         Album = album;
         StatusCode = (int)httpUtils.PutRecord(album).StatusCode;
+        navContext.NavigateBack(PageContext, album);
     }
 }

@@ -1,6 +1,8 @@
 ﻿@using RecordShop
 @using System.Net
 @rendermode InteractiveServer
+@namespace RecordShop.Components
+
 @inject NavigationManager navigationManager
 
 <div>
@@ -26,6 +28,7 @@
 
 @code {
     HttpManager http = new HttpManager();
+    private RSNavContext navContext;
 
     private string? titleValue = "";
 
@@ -35,17 +38,18 @@
 
     private bool IsValid { get => Title is not null && Title != "" && Artist is not null && Artist != "";  }
 
-    private Album GetNewAlbum()
-    {
+    private Album GetNewAlbum() => new Album(0, Title, Artist);
 
-        return new Album(0, Title, Artist);
+    protected override void OnInitialized()
+    {
+        navContext = new RSNavContext(navigationManager);
     }
 
     private async Task Submit(Album album) {
         var (response, record) = await http.PostRecord(album);
 
         if (response.StatusCode == HttpStatusCode.OK) {
-            navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{record.Id}");
+            navContext.NavigateTo($"records/{record.Id}");
         }
     }
 }

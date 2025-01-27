@@ -1,4 +1,5 @@
 ﻿@using RecordShop
+@namespace RecordShop.Components
 
 @if (Album is null)
 {
@@ -16,11 +17,11 @@ else
 {
     if (PageContext == Page.EditRecord)
     {
-        <RecordEditorForm Album="Album"/>
+        <RecordEditorForm Album="Album" PageContext="PageContext"/>
     }
     else 
     {
-        <RecordCard Album="Album" StatusCode="StatusCode" />
+        <RecordCard Album="Album" StatusCode="StatusCode" PageContext="PageContext"/>
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿@using RecordShop
+@namespace RecordShop.Components
 @inject NavigationManager navigationManager
 
 <td class="px-2 mx-2"><span>@Album.Artist</span></td>
@@ -33,6 +34,8 @@
 
     private HttpManager httpManager = new HttpManager();
 
+    private RSNavContext? navContext;
+
     [Parameter] 
     public Album Album { get; set; }
 
@@ -41,6 +44,11 @@
 
     [Parameter] 
     public EventCallback<Album> OnEditRecord { get; set; }
+
+    protected override void OnInitialized()
+    {
+        navContext = new RSNavContext(navigationManager);
+    }
 
     public void CancelDelete()
     {
@@ -53,7 +61,7 @@
         StatusCode = (int)response.StatusCode;
 
         if (StatusCode == 204) {
-            navigationManager.NavigateTo(navigationManager.BaseUri + $"records");
+            navContext.NavigateTo("records");
         }
     }
 
@@ -66,6 +74,6 @@
     }
 
     public void ShowRecordPage(Album album) {
-        navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{album.Id}");
+        navContext.NavigateTo($"records/{album.Id}");
     }
 }
