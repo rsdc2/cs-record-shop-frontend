@@ -2,7 +2,7 @@
 @using RecordShop
 @rendermode InteractiveServer
 
-<RecordEditorForm Album="Album" OnUpdate="UpdateAlbum" />
+<RecordLoader Id="Id" PageContext="Page.EditRecord"/>
 
 @code {
     [Parameter]
@@ -10,6 +10,9 @@
 
     [Parameter]
     public EventCallback<Album> OnUpdate { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
 
     public void UpdateAlbum()
     {

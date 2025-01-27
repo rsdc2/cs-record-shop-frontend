@@ -22,12 +22,11 @@
     [Parameter]
     public EventCallback<Album> OnUpdate { get; set; }
 
-    private void UpdateAlbum(Album album)
+    private void UpdateAlbum()
     {
-        Album = album;
-        var statusCode = (int)httpUtils.PutRecord(album).StatusCode;
+        var statusCode = (int)httpUtils.PutRecord(Album).StatusCode;
         if (statusCode == 200) {
-
+            navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{Album.Id}");
         }
     }
 }
