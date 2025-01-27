@@ -14,6 +14,12 @@ namespace RecordShop_FE
             _httpClient = new HttpClient();
         }
 
+        public async Task<HttpResponseMessage> DeleteRecordById(int id)
+        {
+            HttpResponseMessage? response = await _httpClient.DeleteAsync($"https://localhost:7085/Albums/{id}");
+            return response;
+        }
+
         public async Task<List<Album>?> GetAllRecords() =>
             await _httpClient.GetFromJsonAsync<List<Album>>("https://localhost:7085/Albums");
         

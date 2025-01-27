@@ -1,20 +1,22 @@
 ﻿@using RecordShop
-@inject NavigationManager navman
+@inject NavigationManager navigationManager
 
 <td class="px-2 mx-2"><span>@Album.Artist</span></td>
 <td class ="px-2 mx-2"><span>@Album.Title</span></td>
 <td class="px-2 mx-2">
+    <Button ButtonText="❌" T="int" Obj="Album.Id" OnClick="DeleteRecord" />
     <Button ButtonText="🔧" T="bool" Obj="false" OnClick="EditRecord" />
     <Button ButtonText="🔍" T="Album" Obj="Album" OnClick="ShowRecordPage" />
 </td>
-@if (StatusCode == 200)
-{
-    <td><span>🆗 (@StatusCode)</span></td>
-}
-else
-{
-    <td><span>❌ (@StatusCode)</span></td>
-}
+<td><span>
+    @(StatusCode switch {
+        200 => "🆗",
+        204 => "✅",
+        _ => "❌"
+    }) (@StatusCode)
+    </span>
+</td>
+
 
 @code {
 
@@ -27,11 +29,20 @@ else
     [Parameter] 
     public EventCallback<bool> OnEditRecord { get; set; }
 
+    [Parameter]
+    public EventCallback<int> OnDeleteRecord { get; set; }
+
+    public void DeleteRecord(int recordId)
+    {
+        OnDeleteRecord.InvokeAsync(recordId);
+        navigationManager.NavigateTo(navigationManager.BaseUri + $"records");
+    }
+
     public void EditRecord(bool edit) {
         OnEditRecord.InvokeAsync(edit);
     }
 
     public void ShowRecordPage(Album album) {
-        navman.NavigateTo(navman.BaseUri + $"records/{album.Id}");
+        navigationManager.NavigateTo(navigationManager.BaseUri + $"records/{album.Id}");
     }
 }
