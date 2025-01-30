@@ -57,4 +57,5 @@ The project was written as a learning exercise as part of the [Northcoders](http
 
 ### Dependencies and licenses
 
-The project has no third-party dependencies beyond those required for Blazor.
+- The code of the C# / Blazor project has no third-party dependencies beyond those required for Blazor. 
+- I use [Bulma](https://github.com/jgthms/bulma) ([MIT](https://github.com/jgthms/bulma?tab=MIT-1-ov-file#readme)) for CSS styling. 
